@@ -1,0 +1,16 @@
+saját gépen:
+
+ssh-keygen
+cat /home/d13/ssh/id_rsa.pub (a hely ahova mentette a kulcsot)
+
+másold ki az egész kulcsot
+
+gogson:
+
+beállítások
+deploy kulcs hozzáadása
+valami név, a tartalom a kulcs
+
+saját gépen:
+
+git clone git@192.168.2.27(ip címe a szervernek):felhasznalo(felhasználónév)/teszt.git(repo név)
