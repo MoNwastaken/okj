@@ -133,6 +133,7 @@ cat /home/d13/.ssh/id_rsa.pub (a hely ahova mentette a kulcsot)
 másold ki az egész kulcsot
 
 gogson:
+sqlite, admin fiók hozzáadása
 hozz létre egy repot
 beállítások
 deploy kulcs hozzáadása
