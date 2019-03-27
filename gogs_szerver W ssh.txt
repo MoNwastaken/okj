@@ -66,7 +66,7 @@ sudo systemctl status gogs
 
 
 
-
+mkdir -p /home/git/custom/conf/
 
 # 5. A  /home/git/custom/conf/app.ini fájl tartalma:
 #############################################/home/git/custom/conf/app.ini fájl kezdete
