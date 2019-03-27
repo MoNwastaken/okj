@@ -128,7 +128,7 @@ chmod 666 /home/git/custom/conf/app.ini
 saját gépen:
 
 ssh-keygen
-cat /home/d13/ssh/id_rsa.pub (a hely ahova mentette a kulcsot)
+cat /home/d13/.ssh/id_rsa.pub (a hely ahova mentette a kulcsot)
 
 másold ki az egész kulcsot
 
