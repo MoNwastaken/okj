@@ -1,0 +1,95 @@
+
+sudo -s
+apt-get install mc
+
+1. Írjuk át a /etc/hostname fájlban a szerverünk nevét server névről, samba névre:
+
+	mcedit /etc/hostname
+
+2. Írjuk át a /etc/hosts fájlban a "127.0.1.1 server" sort erre: "127.0.1.1 samba"
+	
+	mcedit /etc/hosts
+
+3. Samba telepítése
+
+	apt-get install samba -y
+
+4. Hozzunk létre kozos néven egy mappát, amit beállítunk mindenki számára olvasásra és írásra:
+
+	mkdir /srv/kozos
+	chmod 777 /srv/kozos
+
+5. Hozzunk létre egy mappát, amit beállítunk mindenki számára csak olvasásra:
+
+	sudo mkdir /srv/readonly
+	sudo chmod 755 /srv/readonly
+
+6. Megosztások konfigurálása
+
+	mcedit /etc/samba/smb.conf
+
+7. Állítsuk be az általános, minden megosztás esetén érvényes beállításokat. 
+   Ezek a [global] szakaszban találhatóak az  /etc/samba/smb.conf fájlban:
+
+[global]
+netbios name=samba
+security=user
+map to guest=bad user
+workgroup = WORKGROUP
+public=yes
+
+[kozos]
+comment=nyilvános írható-olvasható megosztás
+path=/srv/kozos
+writeable=yes
+read only=no
+browseable=yes
+guest ok=yes
+public=yes
+
+[readonly]
+comment=nyilvános csak olvasható megosztás
+path=/srv/readonly
+read only=yes
+browseable=yes
+guest ok=yes
+public=yes
+
+8. Indítsuk újra a Samba szolgáltatást majd ellenőrizzük le:
+
+	service smbd restart
+	service smbd status
+	testparm
+
+	useradd user2 –c "user2" –g users –m –d /home/user2 –s /bin/bash (kézzel írd be ezt a sort)
+	passwd user2 #adjuk meg a jelszót
+	mkdir /srv/user2
+	chown user2 /srv/user2
+	chmod 700 /srv/user2
+	mcedit /etc/samba/smb.conf
+
+9. A fájl végére az alábbiakat gépeljük be:
+
+[user2]
+comment=írható-olvasható megosztás a user2 felhasználónak
+path=/srv/user2
+writeable=yes
+browseable=no
+public=no
+read list=user2
+writelist=user2
+force directory mode=0777
+force create mode=0777
+
+	smbpasswd -a user2 #adjuk meg a jelszót
+	service smbd restart
+
+10. TESZTELÉS ubuntun
+
+	fájlkezelő
+	egyéb helyek
+	alul(adja meg a kiszolgáló címét): smb://szerver ip címe
+	dupla katt a felcsatoláshoz
+	névtelen csatlakozás
+	alul(adja meg a kiszolgáló címét): smb://szerver ip címe/user2
+	regisztrált felhasználó
